@@ -33,6 +33,14 @@ module Lipa
       def text(msg)
         { :render => :text, :msg => msg }
       end
+
+      def html(opts=nil)
+        if opts.nil?
+          @html
+        else
+          @html = opts
+        end
+      end
     end
   end
 end

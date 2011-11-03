@@ -28,10 +28,20 @@ require "lipa/web/helpers"
 require "lipa/web/application"
 require "lipa/web/server"
 
-class Lipa::Tree
-  include Lipa::Web::Server
-end
-
 class Lipa::Node
   include Lipa::Web::NodeHelper
 end
+
+def config(name, &block)
+  #default options
+  opts = { :port => 9292,
+    :server => :webrick,
+    :debug => false,
+    :dir_templates => File.join(File.absolute_path("."), "templates")
+  }
+
+  cfg = Lipa::Tree.new(name, opts, &block)
+  cfg.extend(Lipa::Web::Server)
+  cfg
+ end
+  

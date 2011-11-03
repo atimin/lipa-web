@@ -30,11 +30,6 @@ module Lipa
   module Web 
     module Server 
       def run!
-        @attrs[:port] ||= 9292
-        @attrs[:server] ||= :webrick
-        @attrs[:debug] ||= false
-        @attrs[:dir_templates] ||= File.join(File.absolute_path("."), "templates")
-
         Rack::Server.start :app => Application.new(self),
           :Port => port, 
           :server => server.to_s,

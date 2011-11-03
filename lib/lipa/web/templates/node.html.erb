@@ -3,23 +3,23 @@
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title><%= @node.full_name %></title>
+  <title><%= full_name %></title>
 </head>
 <body>
   <h1>About node</h1>
 
   <h2>Main</h2>
-  Name: <%= @node.name %><br/>
-  Full name: <%= @node.full_name %><br/>
-  <% unless @node.kind_of? Lipa::Tree %>
-  Kind: <%= @node.kind %><br/>
-  Parent: <a href="<%= @node.parent.full_name %>"><%= @node.parent.name %></a><br/>
+  Name: <%= name %><br/>
+  Full name: <%= full_name %><br/>
+  <% unless kind_of? Lipa::Tree %>
+  Kind: <%= kind %><br/>
+  Parent: <a href="<%= parent.full_name %>"><%= parent.name %></a><br/>
   <% end %>
 
   <h2>Children</h2>
   <table border="0">
     <tr><th>Name</th><th>Link<th></tr>
-    <% @node.children.each_pair do |key, ch|%>
+    <% children.each_pair do |key, ch|%>
     <tr><td><%= key.to_s %></td><td><a href="<%= ch.full_name %>"><%= ch.name %></a><br/><td></tr>
     <%end%>
   </table>
@@ -27,7 +27,7 @@
   <h2>Attributes</h2>
   <table border="0">
     <tr><th>Name</th><th>Value<th></tr>
-    <% @node.attrs.each_pair do |key, val|%>
+    <% attrs.each_pair do |key, val|%>
     <tr><td><%= key.to_s %></td><td><%= val.to_s %><td></tr>
     <%end%>
   </table>

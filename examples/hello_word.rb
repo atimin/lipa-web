@@ -2,7 +2,7 @@ $:.unshift File.join(File.dirname(__FILE__),'../lib')
 require "lipa/web"
 
 #Configuration
-srv = Lipa::Tree.new :server do 
+srv = config :server do 
   node :message do 
     html text("Hello World!")
   end
