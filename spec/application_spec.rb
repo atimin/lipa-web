@@ -7,6 +7,8 @@ describe Lipa::Web::Application do
   before :each do
     @srv = Lipa::Tree.new :srv do  
       dir_templates File.join(File.dirname(__FILE__), "templates")
+      layout  "layout.html.erb"
+
       node :group do
         node :test_node do 
           param_int 20

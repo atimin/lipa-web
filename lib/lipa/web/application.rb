@@ -58,9 +58,21 @@ module Lipa
       private
       def view(node)
         if node.attrs[:html]
+          def node.context
+            instance_eval("def binding_for(#{attrs.keys.join(",")}) binding end")
+            block = block_given? ? Proc.new : nil
+            binding_for(*attrs.values, &block)
+          end
+
           case node.attrs[:html][:render]
           when :erb
-            ERB.new(read_template(node.attrs[:html][:template])).result(binding)
+            template = read_template(node.attrs[:html][:template])
+            if node.tree.layout
+              layout = read_template(File.join(node.tree.dir_templates, node.tree.layout))
+              ERB.new(layout).result(node.context { ERB.new(template).result(node.context) })
+            else
+              ERB.new(template).result(node.context)
+            end
           when :text
             node.attrs[:html][:msg]
           end
@@ -68,6 +80,7 @@ module Lipa
           ERB.new(read_template).result(binding)
         end
       end
+
       def read_template(path = nil)
         path ||= File.join(File.dirname(__FILE__),'templates', 'node.html.erb') # default path
         File.open(path).read
