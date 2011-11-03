@@ -1,0 +1,68 @@
+require "lipa/web"
+require "rack/test"
+
+describe Lipa::Web::Application do
+  include Rack::Test::Methods
+
+  before :each do
+    @srv = Lipa::Tree.new :srv do  
+      node :group do
+        node :test_node do 
+          param_int 20
+          param_bool false
+          param_float 32.2
+          param_string "Hello"
+          param_time Time.new(2000,"jan",1,20,15,1)
+
+          node :child_1
+          node :child_2
+        end
+      end
+    end
+  end
+
+  def app
+    Lipa::Web::Application.new(@srv)
+  end
+
+  describe "get" do
+    it 'should get good to root' do
+      get "/"
+      last_response.should be_ok
+    end
+
+    it 'should get good response' do
+      get "/group"
+      last_response.should be_ok
+    end
+
+    it 'should get error for nonexistence node' do
+      get "/nonexistence_node"
+      last_response.should_not be_ok
+      last_response.status.should eql(500)
+      last_response.body.should eql("Node is not existence")
+    end
+
+    it 'should render html template' do
+      get "/group/test_node" 
+      body = last_response.body
+      
+      body.gsub(/^\s*\n/, '').should == fixture("node.html")
+    end
+
+    it 'should render html template' do
+      get "/group/test_node" 
+      body = last_response.body
+      
+      body.gsub(/^\s*\n/, '').should == fixture("node.html")
+    end
+
+
+    def fixture(name)
+      path = File.join(File.dirname(__FILE__), "fixtures", name)
+      File.open(path).read.gsub(/^\s*\n/,'')
+    end
+  end
+end
+
+

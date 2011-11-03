@@ -1,0 +1,8 @@
+*.sw?
+*.gem
+Gemfile.lock
+.bundle/
+.rvmrc
+rspec
+.yardoc/
+doc/
