@@ -15,6 +15,8 @@ describe Lipa::Web::Server do
       :server => "webrick",
       :debug => false
     }
+
+    Rack::Server.stub!(:start).and_return(nil)
   end
 
   it 'should run whith default options' do
@@ -34,6 +36,11 @@ describe Lipa::Web::Server do
   it 'should have #debug option' do
     @srv.debug = true
     test_server(@srv, @default_opts.merge(:debug => true))
+  end
+
+  it 'should default path to dir of templates eql "./templates"' do
+    @srv.run!
+    @srv.dir_templates.should eql(File.join(File.absolute_path("."), "templates"))
   end
 
   def test_server(srv, opts)

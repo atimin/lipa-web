@@ -6,6 +6,7 @@ describe Lipa::Web::Application do
 
   before :each do
     @srv = Lipa::Tree.new :srv do  
+      dir_templates File.join(File.dirname(__FILE__), "templates")
       node :group do
         node :test_node do 
           param_int 20
@@ -16,6 +17,10 @@ describe Lipa::Web::Application do
 
           node :child_1
           node :child_2
+        end
+
+        node :node_with_template do 
+          html erb("./my_template.html.erb")
         end
       end
     end
@@ -43,21 +48,19 @@ describe Lipa::Web::Application do
       last_response.body.should eql("Node is not existence")
     end
 
-    it 'should render html template' do
+    it 'should render default html template' do
       get "/group/test_node" 
-      body = last_response.body
       
-      body.gsub(/^\s*\n/, '').should == fixture("node.html")
+      last_response.body.gsub(/^\s*\n/, '').should == fixture("node.html")
     end
 
-    it 'should render html template' do
-      get "/group/test_node" 
-      body = last_response.body
+    it 'should render user html template' do
+      get "/group/node_with_template" 
       
-      body.gsub(/^\s*\n/, '').should == fixture("node.html")
+      last_response.body.gsub(/^\s*\n/, '').should == fixture("node_with_template.html")
     end
 
-
+:!
     def fixture(name)
       path = File.join(File.dirname(__FILE__), "fixtures", name)
       File.open(path).read.gsub(/^\s*\n/,'')

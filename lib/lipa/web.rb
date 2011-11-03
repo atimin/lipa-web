@@ -24,9 +24,14 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
 require "lipa/web/version"
+require "lipa/web/helpers"
 require "lipa/web/application"
 require "lipa/web/server"
 
 class Lipa::Tree
   include Lipa::Web::Server
+end
+
+class Lipa::Node
+  include Lipa::Web::NodeHelper
 end

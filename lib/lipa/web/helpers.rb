@@ -23,52 +23,11 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
-require "lipa"
-require "rack"
-require "erb"
-
 module Lipa
   module Web
-    class Application
-      def initialize(tree)
-        @tree = tree
-      end
-
-      def call(env)
-        @node = @tree[env['PATH_INFO']]
-        if @node
-          [
-            200, 
-            {"Content-Type" => "text/html"}, 
-            [
-              view(@node)
-            ]
-          ] 
-        else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
-            ]
-          ]
-        end
-      end
-
-      private
-      def view(node)
-        if node.attrs[:html]
-          case node.attrs[:html][:render]
-          when :erb
-            ERB.new(read_template(node.attrs[:html][:template])).result(binding)
-          end
-        else
-          ERB.new(read_template).result(binding)
-        end
-      end
-      def read_template(path = nil)
-        path ||= File.join(File.dirname(__FILE__),'templates', 'node.html.erb') # default path
-        File.open(path).read
+    module NodeHelper
+      def erb(path)
+        { :render => :erb, :template => File.join(tree.attrs[:dir_templates], path) }
       end
     end
   end
