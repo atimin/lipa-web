@@ -28,7 +28,7 @@
   <table border="0">
     <tr><th>Name</th><th>Value<th></tr>
     <% attrs.each_pair do |key, val|%>
-    <tr><td><%= key.to_s %></td><td><%= val.to_s %><td></tr>
+    <tr><td><%= key.to_s %></td><td><%= instance_eval(key.to_s) %><td></tr>
     <%end%>
   </table>
 </body>

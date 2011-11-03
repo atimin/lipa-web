@@ -57,10 +57,11 @@ module Lipa
 
       private
       def view(node)
-        def node.context
-          instance_eval("def binding_for(#{attrs.keys.join(",")}) binding end")
+        def context(node)
+          node.instance_eval("def binding_for(#{node.attrs.keys.join(",")}) binding end")
           block = block_given? ? Proc.new : nil
-          binding_for(*attrs.values, &block)
+          values = node.attrs.keys.inject([]) { |v,m| v << node.instance_eval(m.to_s) }
+          node.binding_for(*values, &block)
         end
 
         if node.html
@@ -69,15 +70,15 @@ module Lipa
             template = read_template(node.html[:template])
             if node.tree.layout
               layout = read_template(File.join(node.tree.dir_templates, node.tree.layout))
-              ERB.new(layout).result(node.context { ERB.new(template).result(node.context) })
+              ERB.new(layout).result(context(node) { ERB.new(template).result(context(node)) })
             else
-              ERB.new(template).result(node.context)
+              ERB.new(template).result(context(node))
             end
           when :text
             node.html[:msg]
           end
         else
-          ERB.new(read_template).result(node.context)
+          ERB.new(read_template).result(context(node))
         end
       end
 

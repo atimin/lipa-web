@@ -1,5 +1,5 @@
 <h1> Planet: <%= name %> </h1>
 
 <% attrs.each_pair do |k,v| %>
-  <%= k.to_s.capitalize %> : <%= v.to_s %>
+  <%= k.to_s.capitalize %> : <%= instance_eval(k.to_s) %>
 <% end %>
