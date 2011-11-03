@@ -4,7 +4,7 @@ require "lipa/web"
 #Configuration
 srv = Lipa::Tree.new :server do 
   node :message do 
-    say "Hello World!"
+    html text("Hello World!")
   end
 end
 

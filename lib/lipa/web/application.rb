@@ -61,6 +61,8 @@ module Lipa
           case node.attrs[:html][:render]
           when :erb
             ERB.new(read_template(node.attrs[:html][:template])).result(binding)
+          when :text
+            node.attrs[:html][:msg]
           end
         else
           ERB.new(read_template).result(binding)

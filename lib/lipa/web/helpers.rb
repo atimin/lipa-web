@@ -29,6 +29,10 @@ module Lipa
       def erb(path)
         { :render => :erb, :template => File.join(tree.attrs[:dir_templates], path) }
       end
+
+      def text(msg)
+        { :render => :text, :msg => msg }
+      end
     end
   end
 end

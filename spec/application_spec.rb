@@ -22,6 +22,10 @@ describe Lipa::Web::Application do
         node :node_with_template do 
           html erb("./my_template.html.erb")
         end
+
+        node :node_greater do 
+          html text("Hello world!")
+        end
       end
     end
   end
@@ -60,7 +64,13 @@ describe Lipa::Web::Application do
       last_response.body.gsub(/^\s*\n/, '').should == fixture("node_with_template.html")
     end
 
-:!
+    it 'should render text' do
+      get "/group/node_greater" 
+      
+      last_response.body.should == "Hello world!"
+    end
+
+
     def fixture(name)
       path = File.join(File.dirname(__FILE__), "fixtures", name)
       File.open(path).read.gsub(/^\s*\n/,'')
