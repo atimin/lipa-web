@@ -27,7 +27,7 @@ module Lipa
   module Web
     module NodeHelper
       def erb(path)
-        { :render => :erb, :template => File.join(root.attrs[:dir_templates], path) }
+        { :render => :erb, :template => File.join(root.attrs[:views], path) }
       end
 
       def text(msg)
@@ -57,7 +57,7 @@ module Lipa
           when :erb
             template = read_template(html[:template])
             if root.layout
-              layout = read_template(File.join(root.dir_templates, root.layout))
+              layout = read_template(File.join(root.views, root.layout))
               ERB.new(layout).result(context { ERB.new(template).result(context) })
             else
               ERB.new(template).result(context)
@@ -72,9 +72,9 @@ module Lipa
 
       private
       def read_template(path = nil)
-        path ||= File.join(File.dirname(__FILE__),'templates', 'node.html.erb') # default path
+        path ||= File.join(File.dirname(__FILE__),'views', 'node.html.erb') # default path
         File.open(path).read
       end
     end
   end
-t end
+end

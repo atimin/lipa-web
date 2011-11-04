@@ -38,9 +38,9 @@ describe Lipa::Web::Server do
     test_server(@srv, @default_opts.merge(:debug => true))
   end
 
-  it 'should default path to dir of templates eql "./templates"' do
+  it 'should default path to dir of views eql "./views"' do
     @srv.run!
-    @srv.dir_templates.should eql(File.join(File.absolute_path("."), "templates"))
+    @srv.views.should eql(File.join(File.absolute_path("."), "views"))
   end
 
   def test_server(srv, opts)

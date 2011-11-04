@@ -6,7 +6,7 @@ describe Lipa::Web::Application do
 
   before :each do
     @srv = root :srv do  
-      dir_templates File.join(File.dirname(__FILE__), "templates")
+      views File.join(File.dirname(__FILE__), "views")
       layout  "layout.html.erb"
 
       node :group do

@@ -37,7 +37,7 @@ def root(name, attrs={}, &block)
   attrs.merge!( :port => 9292,
     :server => :webrick,
     :debug => false,
-    :dir_templates => File.join(File.absolute_path("."), "templates")
+    :views => File.join(File.absolute_path("."), "views")
              ) { |a,d| a }
 
   root = Lipa::Root.new(name, attrs, &block)
