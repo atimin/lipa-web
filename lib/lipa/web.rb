@@ -32,16 +32,16 @@ class Lipa::Node
   include Lipa::Web::NodeHelper
 end
 
-def config(name, &block)
+def root(name, attrs={}, &block)
   #default options
-  opts = { :port => 9292,
+  attrs.merge( :port => 9292,
     :server => :webrick,
     :debug => false,
     :dir_templates => File.join(File.absolute_path("."), "templates")
-  }
+             ) { |a,d| a }
 
-  cfg = Lipa::Tree.new(name, opts, &block)
-  cfg.extend(Lipa::Web::Server)
-  cfg
+  root = Lipa::Root.new(name, attrs, &block)
+  root.extend(Lipa::Web::Server)
+  root
  end
   

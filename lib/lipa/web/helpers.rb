@@ -27,7 +27,7 @@ module Lipa
   module Web
     module NodeHelper
       def erb(path)
-        { :render => :erb, :template => File.join(tree.attrs[:dir_templates], path) }
+        { :render => :erb, :template => File.join(root.attrs[:dir_templates], path) }
       end
 
       def text(msg)

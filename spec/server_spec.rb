@@ -3,7 +3,7 @@ require "lipa/web"
 describe Lipa::Web::Server do
 
   before :each do
-    @srv = config :srv do  
+    @srv = root :srv do  
       node :test_node
     end
 

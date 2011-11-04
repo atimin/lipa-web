@@ -5,7 +5,7 @@ describe Lipa::Web::Application do
   include Rack::Test::Methods
 
   before :each do
-    @srv = config :srv do  
+    @srv = root :srv do  
       dir_templates File.join(File.dirname(__FILE__), "templates")
       layout  "layout.html.erb"
 

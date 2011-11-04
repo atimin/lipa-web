@@ -30,12 +30,12 @@ require "erb"
 module Lipa
   module Web
     class Application
-      def initialize(tree)
-        @tree = tree
+      def initialize(root)
+        @root = root
       end
 
       def call(env)
-        @node = @tree[env['PATH_INFO']]
+        @node = @root[env['PATH_INFO']]
         if @node
           [
             200, 
@@ -68,8 +68,8 @@ module Lipa
           case node.html[:render]
           when :erb
             template = read_template(node.html[:template])
-            if node.tree.layout
-              layout = read_template(File.join(node.tree.dir_templates, node.tree.layout))
+            if node.root.layout
+              layout = read_template(File.join(node.root.dir_templates, node.root.layout))
               ERB.new(layout).result(context(node) { ERB.new(template).result(context(node)) })
             else
               ERB.new(template).result(context(node))
