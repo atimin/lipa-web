@@ -1,0 +1,118 @@
+=begin
+Web access to Lipa
+
+Copyright (c) 2011 Aleksey Timin
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+'Software'), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+=end
+
+require "json"
+
+module Lipa
+  module Web
+     module ResponseHelper
+      def respond(node, ext)
+        case ext
+        when "json"
+          json_format(node)
+        else
+          html_format(node)
+        end
+      end
+
+      private
+      def context(node)
+        node.instance_eval("def binding_for(#{node.attrs.keys.join(",")}) binding; end")
+        node.extend(HtmlHelper)
+        block = block_given? ? Proc.new : nil
+        node.binding_for(*node.eval_attrs.values, &block)
+      end
+
+      def read_template(path)
+        File.open(path).read
+      end
+
+      def default_template
+        path = File.join(File.dirname(__FILE__), '..', 'views', 'node.html.erb') # default path
+        read_template(path)
+      end
+
+      def render_erb(node)
+        template = read_template(node.html[:template])
+        root = node.root
+        if root.layout
+          layout = read_template(File.join(root.views, root.layout))
+          ERB.new(layout).result(context(node) { ERB.new(template).result(context(node)) })
+        else
+          ERB.new(template).result(context(node))
+        end
+      end
+
+      def html_format(node)
+        status = 200
+        header = {}
+        body = ""
+
+        if node.html
+          case node.html[:render]
+          when :erb
+            body = render_erb(node)
+            header["Content-Type"] = "text/html"
+          when :text
+            body = node.html[:msg]
+            header["Content-Type"] = "text/plain"
+          end
+        else
+          body = ERB.new(default_template).result(context(node)) 
+        end
+
+        [ status, header, [body]]
+      end
+
+      def json_format(node)
+        status = 200
+        header = {}
+        body = ""
+
+        header["Content-Type"] = "application/json"
+        body = render_json(node) 
+
+        [ status, header, [body]]
+      end
+
+      def render_json(node)
+        h = {}
+        h[:name] = node.name    
+        h[:full_name] = node.full_name
+        h[:parent] = json_link_to(node.parent)
+        h[:children] = node.children.values.each.map {|ch| json_link_to(ch) }
+        node.eval_attrs.each_pair do |k,v|
+          h[k] = v.kind_of?(Lipa::Node) ? json_link_to(v) : v
+        end
+
+        h.to_json
+      end
+
+      def json_link_to(node)
+        { :name => node.name, :full_name => node.full_name }
+      end
+    end
+  end
+end

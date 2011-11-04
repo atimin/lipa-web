@@ -76,6 +76,13 @@ describe Lipa::Web::Application do
     last_response.body.should == "Hello world!"
   end
 
+  it 'should response in json format' do
+    get "group/test_node.json" 
+
+    last_response.header['Content-Type'].should eql("application/json")
+    last_response.body.gsub(/\s*/,'').should == fixture("node.json").gsub(/\s*/,'')
+  end
+
 
   def fixture(name)
     path = File.join(File.dirname(__FILE__), "fixtures", name)

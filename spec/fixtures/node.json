@@ -1,0 +1,20 @@
+{
+  "name":"test_node",
+  "full_name":"/group/test_node",
+  "parent":{
+    "name":"group",
+    "full_name":"/group"},
+  "children":[
+    { "name":"child_1", "full_name":"/group/test_node/child_1"},
+    { "name":"child_2", "full_name":"/group/test_node/child_2"}
+  ],
+  "param_int":20,
+  "param_bool":false,
+  "param_float":32.2,
+  "param_string":"Hello",
+  "param_time":"2000-01-01 20:15:01 +0500",
+  "param_proc":8,
+  "param_ref":{ 
+    "name":"node_with_template",
+    "full_name":"/group/node_with_template"}
+}  

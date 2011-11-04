@@ -30,21 +30,16 @@ require "erb"
 module Lipa
   module Web
     class Application
-      include RenderHelper
+      include ResponseHelper
       def initialize(root)
         @root = root
       end
 
       def call(env)
-        node = @root[env['PATH_INFO']]
+        path, ext = env['PATH_INFO'].split(".")
+        node = @root[path]
         if node
-          [
-            200, 
-            {"Content-Type" => content_type(node)}, 
-            [
-              view(node)
-            ]
-          ] 
+          respond(node, ext)
         else
           [ 500,
             
