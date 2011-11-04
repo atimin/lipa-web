@@ -34,7 +34,7 @@ end
 
 def root(name, attrs={}, &block)
   #default options
-  attrs.merge( :port => 9292,
+  attrs.merge!( :port => 9292,
     :server => :webrick,
     :debug => false,
     :dir_templates => File.join(File.absolute_path("."), "templates")

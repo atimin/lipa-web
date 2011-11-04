@@ -11,7 +11,7 @@
   <h2>Main</h2>
   Name: <%= name %><br/>
   Full name: <%= full_name %><br/>
-  <% unless kind_of? Lipa::Tree %>
+  <% unless kind_of? Lipa::Root %>
   Kind: <%= kind %><br/>
   Parent: <a href="<%= parent.full_name %>"><%= parent.name %></a><br/>
   <% end %>
@@ -27,8 +27,8 @@
   <h2>Attributes</h2>
   <table border="0">
     <tr><th>Name</th><th>Value<th></tr>
-    <% attrs.each_pair do |key, val|%>
-    <tr><td><%= key.to_s %></td><td><%= instance_eval(key.to_s) %><td></tr>
+    <% eval_attrs.each_pair do |key, val|%>
+    <tr><td><%= key.to_s %></td><td><%= val %><td></tr>
     <%end%>
   </table>
 </body>

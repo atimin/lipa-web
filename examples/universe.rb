@@ -1,7 +1,7 @@
 $:.unshift File.join(File.dirname(__FILE__),'../lib')
 require 'lipa/web'
 
-un = config :universe do 
+un = root :universe do 
   dir_templates File.join(File.dirname(__FILE__), "templates")
   layout "base.html.erb"
 
