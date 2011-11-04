@@ -32,15 +32,17 @@ class Lipa::Node
   include Lipa::Web::NodeHelper
 end
 
-def root(name, attrs={}, &block)
+def root(name, &block)
   #default options
-  attrs.merge!( :port => 9292,
-    :server => :webrick,
-    :debug => false,
-    :views => File.join(File.absolute_path("."), "views")
-             ) { |a,d| a }
 
-  root = Lipa::Root.new(name, attrs, &block)
+  root = Lipa::Root.new(name) do
+    port 9292
+    server :webrick
+    debug false
+    views File.join(File.absolute_path("."), "views")
+  end
+
+  root.instance_eval &block if block_given?
   root.extend(Lipa::Web::Server)
   root
  end
