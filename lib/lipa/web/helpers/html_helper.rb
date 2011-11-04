@@ -23,39 +23,12 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
-require "lipa"
-require "rack"
-require "erb"
-
 module Lipa
   module Web
-    class Application
-      include RenderHelper
-      def initialize(root)
-        @root = root
+    module HtmlHelper
+      def link_to(node)
+        %(<a href="#{node.full_name}">#{node.name}</a>)
       end
-
-      def call(env)
-        node = @root[env['PATH_INFO']]
-        if node
-          [
-            200, 
-            {"Content-Type" => content_type(node)}, 
-            [
-              view(node)
-            ]
-          ] 
-        else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
-            ]
-          ]
-        end
-      end
-
     end
   end
 end

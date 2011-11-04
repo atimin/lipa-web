@@ -23,39 +23,24 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
-require "lipa"
-require "rack"
-require "erb"
-
 module Lipa
   module Web
-    class Application
-      include RenderHelper
-      def initialize(root)
-        @root = root
+    module NodeHelper
+      def erb(path)
+        { :render => :erb, :template => File.join(root.attrs[:views], path) }
       end
 
-      def call(env)
-        node = @root[env['PATH_INFO']]
-        if node
-          [
-            200, 
-            {"Content-Type" => content_type(node)}, 
-            [
-              view(node)
-            ]
-          ] 
+      def text(msg)
+        { :render => :text, :msg => msg }
+      end
+
+      def html(opts=nil)
+        if opts.nil?
+          @html
         else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
-            ]
-          ]
+          @html = opts
         end
       end
-
     end
   end
 end
