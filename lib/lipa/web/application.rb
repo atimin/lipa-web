@@ -35,13 +35,13 @@ module Lipa
       end
 
       def call(env)
-        @node = @root[env['PATH_INFO']]
-        if @node
+        node = @root[env['PATH_INFO']]
+        if node
           [
             200, 
             {"Content-Type" => "text/html"}, 
             [
-              view(@node)
+              node.view
             ]
           ] 
         else
@@ -53,38 +53,6 @@ module Lipa
             ]
           ]
         end
-      end
-
-      private
-      def view(node)
-        def context(node)
-          node.instance_eval("def binding_for(#{node.attrs.keys.join(",")}) binding end")
-          block = block_given? ? Proc.new : nil
-          values = node.attrs.keys.inject([]) { |v,m| v << node.instance_eval(m.to_s) }
-          node.binding_for(*values, &block)
-        end
-
-        if node.html
-          case node.html[:render]
-          when :erb
-            template = read_template(node.html[:template])
-            if node.root.layout
-              layout = read_template(File.join(node.root.dir_templates, node.root.layout))
-              ERB.new(layout).result(context(node) { ERB.new(template).result(context(node)) })
-            else
-              ERB.new(template).result(context(node))
-            end
-          when :text
-            node.html[:msg]
-          end
-        else
-          ERB.new(read_template).result(context(node))
-        end
-      end
-
-      def read_template(path = nil)
-        path ||= File.join(File.dirname(__FILE__),'templates', 'node.html.erb') # default path
-        File.open(path).read
       end
     end
   end

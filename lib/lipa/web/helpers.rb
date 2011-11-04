@@ -45,6 +45,36 @@ module Lipa
       def link_to(node)
         %(<a href="#{node.full_name}">#{node.name}</a>)
       end
+
+      def view
+        def context(node=self)
+          block = block_given? ? Proc.new : nil
+          binding(&block)
+        end
+
+        if html
+          case html[:render]
+          when :erb
+            template = read_template(html[:template])
+            if root.layout
+              layout = read_template(File.join(root.dir_templates, root.layout))
+              ERB.new(layout).result(context { ERB.new(template).result(context) })
+            else
+              ERB.new(template).result(context)
+            end
+          when :text
+            html[:msg]
+          end
+        else
+          ERB.new(read_template).result(context)
+        end
+      end
+
+      private
+      def read_template(path = nil)
+        path ||= File.join(File.dirname(__FILE__),'templates', 'node.html.erb') # default path
+        File.open(path).read
+      end
     end
   end
-end
+t end
