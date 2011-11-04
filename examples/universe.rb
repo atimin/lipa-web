@@ -2,7 +2,7 @@ $:.unshift File.join(File.dirname(__FILE__),'../lib')
 require 'lipa/web'
 
 un = root :universe do 
-  dir_templates File.join(File.dirname(__FILE__), "templates")
+  views File.join(File.dirname(__FILE__), "views")
   layout "base.html.erb"
 
   kind :planet_system do
