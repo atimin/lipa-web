@@ -13,14 +13,14 @@
   Full name: <%= full_name %><br/>
   <% unless kind_of? Lipa::Root %>
   Kind: <%= kind %><br/>
-  Parent: <a href="<%= parent.full_name %>"><%= parent.name %></a><br/>
+  Parent: <%= link_to parent %><br/>
   <% end %>
 
   <h2>Children</h2>
   <table border="0">
     <tr><th>Name</th><th>Link<th></tr>
     <% children.each_pair do |key, ch|%>
-    <tr><td><%= key.to_s %></td><td><a href="<%= ch.full_name %>"><%= ch.name %></a><br/><td></tr>
+    <tr><td><%= key.to_s %></td><td><%= link_to ch %><td></tr>
     <%end%>
   </table>
 

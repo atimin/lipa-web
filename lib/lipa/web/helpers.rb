@@ -41,6 +41,10 @@ module Lipa
           @html = opts
         end
       end
+
+      def link_to(node)
+        %(<a href="#{node.full_name}">#{node.name}</a>)
+      end
     end
   end
 end
