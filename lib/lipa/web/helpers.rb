@@ -70,7 +70,11 @@ module Lipa
         end
       end
 
-      private
+      def content_type
+        content = { :text => "text/plain" }[html[:render]] if html
+        content ||= "text/html"
+      end
+
       def read_template(path = nil)
         path ||= File.join(File.dirname(__FILE__),'views', 'node.html.erb') # default path
         File.open(path).read

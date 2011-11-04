@@ -39,7 +39,7 @@ module Lipa
         if node
           [
             200, 
-            {"Content-Type" => "text/html"}, 
+            {"Content-Type" => node.content_type}, 
             [
               node.view
             ]

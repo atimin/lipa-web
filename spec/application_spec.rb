@@ -38,47 +38,48 @@ describe Lipa::Web::Application do
     Lipa::Web::Application.new(@srv)
   end
 
-  describe "get" do
-    it 'should get good to root' do
-      get "/"
-      last_response.should be_ok
-    end
+  it 'should get good to root' do
+    get "/"
+    last_response.should be_ok
+  end
 
-    it 'should get good response' do
-      get "/group"
-      last_response.should be_ok
-    end
+  it 'should get good response' do
+    get "/group"
+    last_response.should be_ok
+  end
 
-    it 'should get error for nonexistence node' do
-      get "/nonexistence_node"
-      last_response.should_not be_ok
-      last_response.status.should eql(500)
-      last_response.body.should eql("Node is not existence")
-    end
+  it 'should get error for nonexistence node' do
+    get "/nonexistence_node"
+    last_response.should_not be_ok
+    last_response.status.should eql(500)
+    last_response.body.should eql("Node is not existence")
+  end
 
-    it 'should render default html template' do
-      get "/group/test_node" 
-      
-      last_response.body.gsub(/^\s*\n/, '').should == fixture("node.html")
-    end
+  it 'should render default html template' do
+    get "/group/test_node" 
+    
+    last_response.header['Content-Type'].should eql( "text/html")
+    last_response.body.gsub(/^\s*\n/, '').should == fixture("node.html")
+  end
 
-    it 'should render user html template' do
-      get "/group/node_with_template" 
-      
-      last_response.body.gsub(/^\s*\n/, '').should == fixture("node_with_template.html")
-    end
+  it 'should render user html template' do
+    get "/group/node_with_template" 
+    
+    last_response.header['Content-Type'].should eql("text/html")
+    last_response.body.gsub(/^\s*\n/, '').should == fixture("node_with_template.html")
+  end
 
-    it 'should render text' do
-      get "/group/node_greater" 
-      
-      last_response.body.should == "Hello world!"
-    end
+  it 'should render text' do
+    get "/group/node_greater" 
+    
+    last_response.header['Content-Type'].should eql("text/plain")
+    last_response.body.should == "Hello world!"
+  end
 
 
-    def fixture(name)
-      path = File.join(File.dirname(__FILE__), "fixtures", name)
-      File.open(path).read.gsub(/^\s*\n/,'')
-    end
+  def fixture(name)
+    path = File.join(File.dirname(__FILE__), "fixtures", name)
+    File.open(path).read.gsub(/^\s*\n/,'')
   end
 end
 
