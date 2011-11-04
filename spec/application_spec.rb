@@ -17,6 +17,7 @@ describe Lipa::Web::Application do
           param_string "Hello"
           param_time Time.new(2000,"jan",1,20,15,1)
           param_proc run{5+3}
+          param_ref ref("../node_with_template")
 
           node :child_1
           node :child_2

@@ -26,9 +26,9 @@
 
   <h2>Attributes</h2>
   <table border="0">
-    <tr><th>Name</th><th>Value<th></tr>
+    <tr><th>Name</th><th>Value</th></tr>
     <% eval_attrs.each_pair do |key, val|%>
-    <tr><td><%= key.to_s %></td><td><%= val %><td></tr>
+    <tr><td><%= key.to_s %></td><td><%= val.kind_of?(Lipa::Node) ? link_to(val) : val %></td></tr>
     <%end%>
   </table>
 </body>
