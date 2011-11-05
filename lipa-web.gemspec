@@ -4,7 +4,7 @@ $:.unshift lib unless $:.include?(lib)
 require 'lipa/web/version'
 
 Gem::Specification.new do |gem|
-  gem.name = "lipa-rest"
+  gem.name = "lipa-web"
   gem.version = Lipa::Web::VERSION
   gem.author  = 'A.Timin'
   gem.email = "atimin@gmail.com"
