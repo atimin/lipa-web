@@ -96,24 +96,24 @@ module Lipa
           node.json[:block].call(j)
           body = j.to_json
         else
-          body = render_json(node) 
+          body = render_default_json(node) 
         end
 
         header["Content-Type"] = "application/json"
         [ status, header, [body]]
       end
 
-      def render_json(node)
-        h = {}
-        h[:name] = node.name    
-        h[:full_name] = node.full_name
-        h[:parent] = json_link_to(node.parent)
-        h[:children] = node.children.values.each.map {|ch| json_link_to(ch) }
+      def render_default_json(node)
+        j = {}
+        j[:name] = node.name    
+        j[:full_name] = node.full_name
+        j[:parent] = json_link_to(node.parent)
+        j[:children] = node.children.values.each.map {|ch| json_link_to(ch) }
         node.eval_attrs.each_pair do |k,v|
-          h[k] = v.kind_of?(Lipa::Node) ? json_link_to(v) : v
+         j[k] = v.kind_of?(Lipa::Node) ? json_link_to(v) : v
         end
 
-        h.to_json
+        j.to_json
       end
 
       def json_link_to(node)
