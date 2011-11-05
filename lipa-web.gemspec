@@ -18,6 +18,8 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'rack', '~> 1.3.5'
   gem.add_dependency 'json', '~> 1.6.1'
 
+  gem.required_ruby_version = '>= 1.9.2'
+
   gem.add_development_dependency 'rake', '>=0.9.2.2'
   gem.add_development_dependency 'bundler'
   gem.add_development_dependency 'rspec', '>= 2.7.0'

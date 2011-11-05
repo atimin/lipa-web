@@ -15,7 +15,7 @@ describe Lipa::Web::Application do
           param_bool false
           param_float 32.2
           param_string "Hello"
-          param_time Time.new(2000,"jan",1,20,15,1)
+          param_time Time.new(2000,"jan",1,20,15,1,0)
           param_proc run{5+3}
           param_ref ref("../node_with_template")
 
