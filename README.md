@@ -1,6 +1,6 @@
 LipaWeb  [![Build Status](https://secure.travis-ci.org/flipback/lipa-web.png)](http://travis-ci.org/flipback/lipa-web)
 =======================================================
-LipaWeb - micro web-framework based on [Lipa](http://lipa.flipbacl.new) for Web access to treelike structures
+LipaWeb - micro webframework based on [Lipa](http://lipa.flipbacl.new) for web access to treelike structures
 
 Features
 ----------------------------------------------------
