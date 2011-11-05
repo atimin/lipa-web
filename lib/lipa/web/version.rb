@@ -25,6 +25,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Lipa
   module Web
-    VERSION = "0.1.0"
+    VERSION = "0.1.1"
   end
 end
