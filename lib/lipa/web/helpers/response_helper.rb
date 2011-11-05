@@ -91,9 +91,15 @@ module Lipa
         header = {}
         body = ""
 
-        header["Content-Type"] = "application/json"
-        body = render_json(node) 
+        if node.json
+          j = {}
+          node.json[:block].call(j)
+          body = j.to_json
+        else
+          body = render_json(node) 
+        end
 
+        header["Content-Type"] = "application/json"
         [ status, header, [body]]
       end
 

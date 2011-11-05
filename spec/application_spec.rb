@@ -25,6 +25,7 @@ describe Lipa::Web::Application do
 
         node :node_with_template do 
           html erb("./my_template.html.erb")
+          json { |j| j[:name] = name }
         end
 
         node :node_greater do 
@@ -76,13 +77,19 @@ describe Lipa::Web::Application do
     last_response.body.should == "Hello world!"
   end
 
-  it 'should response in json format' do
+  it 'should response in default json format' do
     get "group/test_node.json" 
 
     last_response.header['Content-Type'].should eql("application/json")
     last_response.body.gsub(/\s*/,'').should == fixture("node.json").gsub(/\s*/,'')
   end
 
+  it 'should response in default json format' do
+    get "group/node_with_template.json" 
+
+    last_response.header['Content-Type'].should eql("application/json")
+    last_response.body.should ==  '{"name":"node_with_template"}'
+  end
 
   def fixture(name)
     path = File.join(File.dirname(__FILE__), "fixtures", name)

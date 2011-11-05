@@ -41,6 +41,14 @@ module Lipa
           @html = opts
         end
       end
+
+      def json(&block)
+        if block_given?
+          @json = {:block => block}
+        else
+          @json 
+        end
+      end
     end
   end
 end
