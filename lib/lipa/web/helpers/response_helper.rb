@@ -73,15 +73,22 @@ module Lipa
         status = 200
         header = {}
         body = ""
-
-        if node.html
-          case node.html[:render]
-          when :erb
-            body = render_erb(node)
-            header["Content-Type"] = "text/html"
-          when :text
-            body = node.html[:msg]
-            header["Content-Type"] = "text/plain"
+        
+        html = node.html
+        if html
+          if html[:block]
+            h = { :status => 200, :header => { "Content-Type" => "text/html" }}
+            h[:body] ||= html[:block].call(h)
+            status, header, body = h[:status], h[:header], h[:body]
+          else
+            case html[:render]
+            when :erb
+              body = render_erb(node)
+              header["Content-Type"] = "text/html"
+            when :text
+              body = html[:msg]
+              header["Content-Type"] = "text/plain"
+            end
           end
         else
           body = ERB.new(default_template).result(context(node)) 

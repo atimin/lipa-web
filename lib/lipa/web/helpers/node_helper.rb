@@ -55,11 +55,15 @@ module Lipa
       #
       # @see NodeHelpers#erb
       # @see NodeHelpers#text
-      def html(opts=nil)
-        if opts.nil?
-          @html
+      def html(opts=nil,&block)
+        if block_given?
+          @html = {:block => block}
         else
-          @html = opts
+          if opts.nil?
+            @html
+          else
+            @html = opts
+          end
         end
       end
 

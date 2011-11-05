@@ -25,11 +25,18 @@ describe Lipa::Web::Application do
 
         node :node_with_template do 
           html erb("./my_template.html.erb")
-          json { |j| j[:name] = name }
         end
 
         node :node_greater do 
           html text("Hello world!")
+        end
+
+        node :node_man_html do
+          html { |h| h[:body] = "<h1>Hello</h1>" }
+        end
+
+        node :node_man_json do
+          json { |j| j[:name] = name }
         end
       end
     end
@@ -63,7 +70,7 @@ describe Lipa::Web::Application do
     last_response.body.gsub(/^\s*\n/, '').should == fixture("node.html")
   end
 
-  it 'should render user html template' do
+  it 'should render custom html template' do
     get "/group/node_with_template" 
     
     last_response.header['Content-Type'].should eql("text/html")
@@ -77,18 +84,25 @@ describe Lipa::Web::Application do
     last_response.body.should == "Hello world!"
   end
 
-  it 'should response in default json format' do
+  it 'should have default json response' do
     get "group/test_node.json" 
 
     last_response.header['Content-Type'].should eql("application/json")
     last_response.body.gsub(/\s*/,'').should == fixture("node.json").gsub(/\s*/,'')
   end
 
-  it 'should response in default json format' do
-    get "group/node_with_template.json" 
+  it 'should have custom json response' do
+    get "group/node_man_json.json" 
 
     last_response.header['Content-Type'].should eql("application/json")
-    last_response.body.should ==  '{"name":"node_with_template"}'
+    last_response.body.should ==  '{"name":"node_man_json"}'
+  end
+
+  it 'should have custom html response' do
+    get "group/node_man_html" 
+
+    last_response.header['Content-Type'].should eql("text/html")
+    last_response.body.should ==  '<h1>Hello</h1>'
   end
 
   def fixture(name)
