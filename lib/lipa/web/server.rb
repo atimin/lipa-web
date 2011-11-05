@@ -29,6 +29,24 @@ require "rack"
 module Lipa
   module Web 
     module Server 
+      # Run HTTP server
+      # 
+      # @param port [Integer] listener port (default 9292)
+      # @param host [String] host of server (default 127.0.0.1)
+      # @param server [Symbol,String] server name (:webbrick, :thin, :cgi and everything what Rack supports) ( default :webrick)
+      # @param debug [Boolean] debug mode (default false)
+      # @param views [String] path to views directory (default "./views")
+      #
+      # @example
+      #   srv root :srv do
+      #     # Server params
+      #     port 3456
+      #     host '127.0.0.1'
+      #     server :webrick
+      #     debug false
+      #   end
+      #
+      #   srv.run!
       def run!
         Rack::Server.start :app => Application.new(self),
           :Port => port, 

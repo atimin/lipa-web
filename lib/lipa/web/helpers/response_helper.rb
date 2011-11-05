@@ -28,8 +28,12 @@ require "json"
 module Lipa
   module Web
      module ResponseHelper
-      def respond(node, ext)
-        case ext
+       # Rendering node data in format
+       # 
+       # @param node [Lipa::Node] node for rendering
+       # @param format of rendering 
+      def respond(node, format)
+        case format.to_s 
         when "json"
           json_format(node)
         else

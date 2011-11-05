@@ -26,14 +26,35 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 module Lipa
   module Web
     module NodeHelper
+
+      # Assignment erb template fot html response
+      # 
+      # @param path [String] path about views directory 
+      #
+      # @examnple
+      #   node :page_1 do
+      #     html erb("page.html.erb")
+      #   end
       def erb(path)
         { :render => :erb, :template => File.join(root.attrs[:views], path) }
       end
 
+      # Assignment text for html response
+      # 
+      # @param msg [String] text message
+      #
+      # @examnple
+      #   node :page_1 do
+      #     html text("Hello World!")
+      #   end
       def text(msg)
         { :render => :text, :msg => msg }
       end
 
+      # Definition html response 
+      #
+      # @see NodeHelpers#erb
+      # @see NodeHelpers#text
       def html(opts=nil)
         if opts.nil?
           @html
@@ -42,6 +63,13 @@ module Lipa
         end
       end
 
+      # Definition json response
+      #
+      # @example
+      #   node :josn_1 do
+      #     json { |j| j[:name] = name }
+      #   end
+      #   # => { "name":"json_1" }
       def json(&block)
         if block_given?
           @json = {:block => block}

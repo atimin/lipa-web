@@ -29,17 +29,22 @@ require "erb"
 
 module Lipa
   module Web
+    # Rack application
     class Application
       include ResponseHelper
+
+      # Init app
+      #
+      # @param root [Lipa::Root] Lipa structure
       def initialize(root)
         @root = root
       end
 
       def call(env)
-        path, ext = env['PATH_INFO'].split(".")
+        path, format = env['PATH_INFO'].split(".")
         node = @root[path]
         if node
-          respond(node, ext)
+          respond(node, format)
         else
           [ 500,
             
