@@ -14,7 +14,7 @@ Gem::Specification.new do |gem|
   gem.rdoc_options = ["--title", "Lipa", "--inline-source", "--main", "README.md"]
   gem.extra_rdoc_files = ["README.md", "NEWS.md"]
 
-  gem.add_dependency 'lipa', '~> 1.0.0dev'
+  gem.add_dependency 'lipa', '~> 1.0.0'
   gem.add_dependency 'rack', '~> 1.3.5'
 
   gem.add_development_dependency 'rake', '>=0.9.2.2'
