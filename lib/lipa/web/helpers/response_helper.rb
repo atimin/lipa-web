@@ -139,9 +139,18 @@ module Lipa
         header = {}
         body = ""
 
-        path = File.join(File.dirname(__FILE__), '..', 'views', 'node.builder') # default path
+        template = if node.xml
+          case node.xml[:render]
+          when :builder
+          read_template(node.xml[:template])
+          end
+        else
+          path = File.join(File.dirname(__FILE__), '..', 'views', 'node.builder') # default path
+          read_template(path)
+        end
+
         xml = Builder::XmlMarkup.new        
-        xml.instance_eval(read_template(path))
+        xml.instance_eval(template)
         body = xml.target!
         
         header["Content-Type"] = "application/xml"

@@ -81,6 +81,18 @@ module Lipa
           @json 
         end
       end
+
+      def builder(path)
+        { :render => :builder, :template => File.join(root.attrs[:views], path) }
+      end
+
+      def xml(opts=nil)
+        if opts.nil?
+          @xml
+        else
+          @xml = opts
+        end
+      end
     end
   end
 end
