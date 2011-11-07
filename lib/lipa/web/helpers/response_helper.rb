@@ -24,6 +24,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
 require "json"
+require "builder"
 
 module Lipa
   module Web
@@ -36,6 +37,8 @@ module Lipa
         case format.to_s 
         when "json"
           json_format(node)
+        when "xml"
+          xml_format(node)
         else
           html_format(node)
         end
@@ -129,6 +132,20 @@ module Lipa
 
       def json_link_to(node)
         { :name => node.name, :full_name => node.full_name }
+      end
+
+      def xml_format(node)
+        status = 200
+        header = {}
+        body = ""
+
+        path = File.join(File.dirname(__FILE__), '..', 'views', 'node.builder') # default path
+        xml = Builder::XmlMarkup.new        
+        xml.instance_eval(read_template(path))
+        body = xml.target!
+        
+        header["Content-Type"] = "application/xml"
+        [status, header, [body]]
       end
     end
   end

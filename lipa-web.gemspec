@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.add_dependency 'lipa', '~> 1.0.0'
   gem.add_dependency 'rack', '~> 1.3.5'
   gem.add_dependency 'json', '~> 1.6.1'
+  gem.add_dependency 'builder', '~>3.0.0'
 
   gem.required_ruby_version = '>= 1.9.2'
 

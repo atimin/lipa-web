@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<node>
+  <name>test_node</name>
+  <full_name>/group/test_node</full_name>
+  <parent>
+    <name>group</name>
+    <full_name>/group</full_name>
+  </parent>
+  <children>
+    <node>
+      <name>child_1</name>
+      <full_name>/group/test_node/child_1</full_name>
+    </node>
+    <node>
+      <name>child_2</name>
+      <full_name>/group/test_node/child_2</full_name>
+    </node>
+  </children>
+  <param_int>20</param_int>
+  <param_bool>false</param_bool>
+  <param_float>32.2</param_float>
+  <param_string>Hello</param_string>
+  <param_time>2000-01-01 20:15:01 +0000</param_time>
+  <param_proc>8</param_proc>
+  <param_ref>
+    <node>
+      <name>other_node</name>
+      <full_name>/group/other_node</full_name>
+    </node>
+  </param_ref>
+</node>
