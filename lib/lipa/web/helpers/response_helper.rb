@@ -150,11 +150,18 @@ module Lipa
         end
 
         xml = Builder::XmlMarkup.new        
-        xml.instance_eval(template)
+        eval(template, context_for_xml(node,xml))
         body = xml.target!
         
         header["Content-Type"] = "application/xml"
         [status, header, [body]]
+      end
+
+      def context_for_xml(node,xml)
+        node.instance_eval("def binding_for(#{(node.attrs.keys << "xml").join(",")}) binding; end")
+        node.extend(HtmlHelper)
+        block = block_given? ? Proc.new : nil
+        node.binding_for(*(node.eval_attrs.values << xml), &block)
       end
     end
   end

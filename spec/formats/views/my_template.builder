@@ -1,5 +1,5 @@
-instruct!
-node do
-  name node.name
-  full_name node.full_name
+xml.instruct!
+xml.node do
+  xml.name name
+  xml.full_name full_name
 end

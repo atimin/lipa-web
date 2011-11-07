@@ -19,7 +19,7 @@ describe Lipa::Web::Application do
     Lipa::Web::Application.new(@srv)
   end
 
-  it 'should have default json response' do
+  it 'should have default xml response' do
     get "group/test_node.xml" 
 
     last_response.header['Content-Type'].should eql("application/xml")
