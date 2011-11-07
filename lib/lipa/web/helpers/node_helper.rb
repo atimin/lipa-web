@@ -86,11 +86,15 @@ module Lipa
         { :render => :builder, :template => File.join(root.attrs[:views], path) }
       end
 
-      def xml(opts=nil)
-        if opts.nil?
-          @xml
+      def xml(opts=nil, &block)
+        if block_given?
+          @xml = { :block => block }
         else
-          @xml = opts
+          if opts.nil?
+            @xml
+          else
+            @xml = opts
+          end
         end
       end
     end

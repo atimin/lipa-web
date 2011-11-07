@@ -12,6 +12,10 @@ describe Lipa::Web::Application do
       node :node_with_template do 
         xml builder("my_template.builder")
       end
+
+      node :node_man_xml do
+        xml { |xml| xml.name name }
+      end
     end
   end
 
@@ -33,6 +37,12 @@ describe Lipa::Web::Application do
     last_response.body.gsub(/\s*/, '').should == fixture("node_with_template.xml").gsub(/\s*/,'')
   end
 
+  it 'should have custom xml response' do
+    get "/node_man_xml.xml"
+    
 
+    last_response.header['Content-Type'].should eql("application/xml")
+    last_response.body.gsub(/\s*/, '').should eql("<name>node_man_xml</name>")
+  end
 end
 
