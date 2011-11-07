@@ -35,9 +35,7 @@ module Lipa
           html = node.html
           if html
             if html[:block]
-              h = { :status => 200, :header => { "Content-Type" => "text/html" }}
-              h[:body] ||= html[:block].call(h)
-              status, header, body = h[:status], h[:header], h[:body]
+              body = html[:block].call
             else
               case html[:render]
               when :erb

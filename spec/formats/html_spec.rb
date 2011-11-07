@@ -19,7 +19,8 @@ describe Lipa::Web::Application do
       end
 
       node :node_man_html do
-        html { |h| h[:body] = "<h1>Hello</h1>" }
+        say "Hello"
+        html { "<h1>#{say}</h1>" }
       end
     end
   end
