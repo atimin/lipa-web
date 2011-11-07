@@ -32,7 +32,7 @@ module Lipa
         # 
         # @param path [String] path about views directory 
         #
-        # @examnple
+        # @example
         #   node :page_1 do
         #     html erb("page.html.erb")
         #   end
@@ -44,7 +44,7 @@ module Lipa
         # 
         # @param msg [String] text message
         #
-        # @examnple
+        # @example
         #   node :page_1 do
         #     html text("Hello World!")
         #   end
@@ -83,10 +83,26 @@ module Lipa
           end
         end
 
+        # Assignment  template fot xml response
+        # 
+        # @param path [String] path about views directory 
+        #
+        # @example
+        #   node :page_1 do
+        #     xml builder("page.builder")
+        #   end
+
         def builder(path)
           { :render => :builder, :template => File.join(root.attrs[:views], path) }
         end
 
+        # Definition xml response
+        #
+        # @example
+        #   node :xml_1 do
+        #     xml { |xml| xml.msg "Hello" }
+        #   end
+        #   # => <msg>Hello</msg>
         def xml(opts=nil, &block)
           if block_given?
             @xml = { :block => block }

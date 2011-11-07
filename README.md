@@ -5,7 +5,7 @@ LipaWeb - micro webframework based on [Lipa](http://lipa.flipbacl.new) for web a
 Features
 ----------------------------------------------------
 - Based on Rack and Lipa
-- Support HTML,JSON and text format response
+- Support HTML,JSON, XML and text format response
 - Support ERB templates with layouts
 
 Example

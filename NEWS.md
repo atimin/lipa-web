@@ -1,14 +1,12 @@
 NEXT Release 0.2.0
 ---------------------------
+- Added support XML format
 - Added custom html response  
   
   ```Ruby
     node :page_1 do
-      hello = "<h1>Hello!</h1>
-      html { |h| 
-        h[:status] = 200
-        h[:body] = hello
-      }
+      say "Hello"
+      html { <h1>#{say}</h1> }
     end
   ```
 
