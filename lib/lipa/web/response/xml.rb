@@ -23,39 +23,46 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
-require "lipa"
-require "rack"
-require "erb"
+require "builder"
 
 module Lipa
   module Web
-    # Rack application
-    class Application
-      include Response
+    module Response
+      module XML
+        extend Helpers::Response
 
-      # Init app
-      #
-      # @param root [Lipa::Root] Lipa structure
-      def initialize(root)
-        @root = root
-      end
+        def self.response(node)
+          xml = Builder::XmlMarkup.new        
+          if node.xml
+            if node.xml[:block]
+              node.xml[:block].call(xml)
+            else
+              case node.xml[:render]
+              when :builder
+                template = read_template(node.xml[:template])
+              end
+              eval(template, context(node,xml))
+            end
+          else
+            eval(default_template, context(node,xml))
+          end
 
-      def call(env)
-        path, format = env['PATH_INFO'].split(".")
-        node = @root[path]
-        if node
-          respond(node, format)
-        else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
-            ]
-          ]
+          [200, {"Content-Type" => "application/xml"}, [ xml.target!]]
+        end
+
+        private
+        def self.context(node,xml)
+          node.instance_eval("def binding_for(#{(node.attrs.keys << "xml").join(",")}) binding; end")
+          block = block_given? ? Proc.new : nil
+          node.binding_for(*(node.eval_attrs.values << xml), &block)
+        end
+
+        def self.default_template
+          path = File.join(File.dirname(__FILE__), '..', 'views', 'node.builder') # default path
+          template = read_template(path)
         end
       end
-
     end
   end
 end
+

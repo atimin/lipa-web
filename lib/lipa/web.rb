@@ -25,11 +25,12 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 require "lipa/web/version"
 require "lipa/web/helpers"
+require "lipa/web/response"
 require "lipa/web/application"
 require "lipa/web/server"
 
 class Lipa::Node
-  include Lipa::Web::NodeHelper
+  include Lipa::Web::Helpers::Node
 end
 
 def root(name, &block)

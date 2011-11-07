@@ -23,39 +23,27 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
-require "lipa"
-require "rack"
-require "erb"
+require "lipa/web/response/html"
+require "lipa/web/response/json"
+require "lipa/web/response/xml"
 
 module Lipa
   module Web
-    # Rack application
-    class Application
-      include Response
-
-      # Init app
-      #
-      # @param root [Lipa::Root] Lipa structure
-      def initialize(root)
-        @root = root
-      end
-
-      def call(env)
-        path, format = env['PATH_INFO'].split(".")
-        node = @root[path]
-        if node
-          respond(node, format)
+     module Response
+       # Rendering node data in format
+       # 
+       # @param node [Lipa::Node] node for rendering
+       # @param format of rendering 
+      def respond(node, format)
+        case format.to_s 
+        when "json"
+          JSON::response(node)
+        when "xml"
+          XML::response(node)
         else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
-            ]
-          ]
+          HTML::response(node)
         end
       end
-
     end
   end
 end

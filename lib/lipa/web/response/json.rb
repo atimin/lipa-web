@@ -23,39 +23,42 @@ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 =end
 
-require "lipa"
-require "rack"
-require "erb"
-
+require "json"
 module Lipa
   module Web
-    # Rack application
-    class Application
-      include Response
+    module Response
+      module JSON
+        def self.response(node)
+          body = if node.json
+                   j = {}
+                   node.json[:block].call(j)
+                   j.to_json
+                 else
+                   render_default_json(node) 
+                 end
 
-      # Init app
-      #
-      # @param root [Lipa::Root] Lipa structure
-      def initialize(root)
-        @root = root
-      end
+          [ 200, { "Content-Type" => "application/json" }, [body]]
+        end
 
-      def call(env)
-        path, format = env['PATH_INFO'].split(".")
-        node = @root[path]
-        if node
-          respond(node, format)
-        else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
-            ]
-          ]
+        private
+        def self.render_default_json(node)
+          j = {}
+          j[:name] = node.name    
+          j[:full_name] = node.full_name
+          j[:parent] = json_link_to(node.parent)
+          j[:children] = node.children.values.each.map {|ch| json_link_to(ch) }
+
+          node.eval_attrs.each_pair do |k,v|
+           j[k] = v.kind_of?(Lipa::Node) ? json_link_to(v) : v
+          end
+
+          j.to_json
+        end
+
+        def self.json_link_to(node)
+          { :name => node.name, :full_name => node.full_name }
         end
       end
-
     end
   end
 end

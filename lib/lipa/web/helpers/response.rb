@@ -25,14 +25,13 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 module Lipa
   module Web
-    module HtmlHelper
-      # Make link for node
-      #
-      # @param node [Lipa::Node] linking node
-      # @return [String] html <a href='path/to/node'>name_of_node</a>
-      def link_to(node)
-        %(<a href="#{node.full_name}">#{node.name}</a>)
+     module Helpers
+       module Response
+        def read_template(path)
+          File.open(path).read
+        end
       end
     end
   end
 end
+ 
