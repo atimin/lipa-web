@@ -5,8 +5,7 @@ describe Lipa::Web::Application do
 
   before :each do
     @srv = root :srv do  
-      views File.join(File.dirname(__FILE__), "views")
-      layout  "layout.html.erb"
+      static_folder File.join(File.dirname(__FILE__), "public")
 
       node :group do
         node :test_node do 
@@ -36,6 +35,12 @@ describe Lipa::Web::Application do
     last_response.should_not be_ok
     last_response.status.should eql(500)
     last_response.body.should eql("Node is not existence")
+  end
+
+  it 'should serve statics files in public folder' do
+    get "/css/style.css"
+    last_response.header["Content-Type"].should eql("text/css") 
+    last_response.body.should eql(".h1 { color: #fff; }\n")
   end
 end
 

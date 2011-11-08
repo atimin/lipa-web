@@ -46,13 +46,18 @@ module Lipa
         if node
           respond(node, format)
         else
-          [ 500,
-            
-            {"Content-Type" => "text/html"}, 
-            [
-              "Node is not existence"
+          static_path = File.join(@root.static_folder, env['PATH_INFO'])
+          if File.exist?(static_path)
+            [ 200, { "Content-Type" => "text/#{format}" }, [File.read(static_path)]]
+          else
+            [ 500,
+              
+              {"Content-Type" => "text/html"}, 
+              [
+                "Node is not existence"
+              ]
             ]
-          ]
+          end
         end
       end
 
