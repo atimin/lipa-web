@@ -1,5 +1,13 @@
 NEXT Release 0.2.0
 ---------------------------
+- Added serve static files
+    
+  ```Ruby
+    root :srv do
+      static_folder File.dirname(__FILE__) + "/public"
+    end
+  ```
+
 - Added support XML format
 - Added custom html response  
   
