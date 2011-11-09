@@ -1,20 +1,12 @@
 LipaWeb  [![Build Status](https://secure.travis-ci.org/flipback/lipa-web.png)](http://travis-ci.org/flipback/lipa-web)
 =======================================================
-LipaWeb - micro webframework based on [Lipa](http://lipa.flipback.new) for web access to treelike structures
-
-Features
-----------------------------------------------------
-- Based on Rack and Lipa
-- HTML,JSON, XML and text formats of response
-- ERB templates with layouts
-- Static files
-
+LipaWeb - micro webframework based on [Lipa](http://lipa.flipback.net) for web access to treelike structures
 
 Installation
 ----------------------------------------------------
 `gem install lipa-web`
 
-Example
+Get started
 ----------------------------------------------------
 
     require 'lipa-web'
