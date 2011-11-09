@@ -42,8 +42,8 @@ describe Lipa::Web::Server do
     @srv.views.should eql(File.join(File.absolute_path("."), "views"))
   end
   
-  it 'should default public folder of views eql "/lipa/web/public"' do
-    @srv.static_folder.should eql(File.join(File.absolute_path("."), "/lib/lipa/web/public"))
+  it 'should default public folder of views eql "./public"' do
+    @srv.static_folder.should eql(File.join(File.absolute_path("."), "public"))
   end
 
   def test_server(srv, opts)

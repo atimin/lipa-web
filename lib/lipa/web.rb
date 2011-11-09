@@ -41,7 +41,7 @@ def root(name, &block)
     server :webrick
     debug false
     views File.join(File.absolute_path("."), "views")
-    static_folder File.join(File.dirname(__FILE__), "web","public")
+    static_folder File.join(File.absolute_path("."), "public")
   end
 
   root.instance_eval &block if block_given?
