@@ -47,7 +47,7 @@ module Lipa
               end
             end
           else
-            body = ERB.new(default_template).result(context(node)) 
+            body = render_default_template(node)
           end
           [ 200, header, [body]]
         end
@@ -60,9 +60,18 @@ module Lipa
           node.binding_for(*node.eval_attrs.values, &block)
         end
 
-        def self.default_template
+        def self.render_default_template(node)
           path = File.join(File.dirname(__FILE__), '..', 'views', 'node.html.erb') # default path
-          read_template(path)
+          default_template = read_template(path)
+
+          path = File.join(File.dirname(__FILE__), '..', 'views', 'layout.html.erb') # default path
+          default_layout = read_template(path)
+
+          ERB.new(default_layout).result(
+            context(node) do
+              ERB.new(default_template).result(context(node)) 
+            end
+          )
         end
 
         def self.render_erb(node)
