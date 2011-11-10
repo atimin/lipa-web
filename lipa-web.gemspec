@@ -10,7 +10,7 @@ Gem::Specification.new do |gem|
   gem.email = "atimin@gmail.com"
   gem.homepage = "http://lipa.flipback.net"
   gem.summary = "LipaWeb - micro webframework for web access to treelike structures"
-  gem.files = Dir['lib/**/*.rb','spec/*.rb', 'examples/**/*.rb','Rakefile']
+  gem.files = Dir['lib/**/*.rb','spec/**/*.rb', 'examples/**/*.rb','Rakefile']
   gem.rdoc_options = ["--title", "Lipa", "--inline-source", "--main", "README.md"]
   gem.extra_rdoc_files = ["README.md", "NEWS.md"]
 

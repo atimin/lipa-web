@@ -1,4 +1,4 @@
-NEXT Release 0.2.0
+2011-11-10 Release 0.2.0
 ---------------------------
 - Added serve static files
     
