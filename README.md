@@ -113,12 +113,12 @@ All template binding with node. For example:
 LipaWeb is extension of Lipa and inherit its features:
 
     root :app do
-      kind :greater do
+      kind :greeter do
         html { <h1>Hello, #{name.to_s.capitalize}!</h1> }
       end
 
-      greater :ann
-      greater :aleksey
+      greeter :ann
+      greeter :aleksey
       #....
     end
 
